@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Tests matrix</title>
+        <script type="text/javascript" src="vec4.js"></script>
+        <script type="text/javascript" src="mat4.js"></script>
+        <script type="text/javascript">
+            function setMatrixTo(mat, w) {
+                for (var i=0; i<4; i++) {
+                    for (var j=0; j<4; j++) {
+                        var el = document.getElementById('m' + w + i + j);
+                        el.value = mat.m[i][j];
+                    }
+                }
+            }
+            
+            function getMatrix(w) {
+                var mat = new Mat4();
+                
+                for (var i=0; i<4; ++i) {
+                    for (var j=0; j<4; ++j) {
+                        var el = document.getElementById('m' + w + i +j);
+                        mat.m[i][j] = parseInt(el.value);
+                    }
+                }
+                
+                return mat;
+            }
+            
+            function getCalcVector() {
+                var x = document.getElementById('v1').value;
+                var y = document.getElementById('v2').value;
+                var z = document.getElementById('v3').value;
+                var w = document.getElementById('v4').value;
+                
+                return new Vec4(x, y, z, w);
+            }
+            
+            function setResultVector(v) {
+                document.getElementById('r1').value = v.x;
+                document.getElementById('r2').value = v.y;
+                document.getElementById('r3').value = v.z;
+                document.getElementById('r4').value = v.w;
+            }
+            
+            window.addEventListener('load', function() {
+            });
+            
+            function btn_click() {
+                var mat1;
+                var mat2;
+                var mat3;
+                
+                mat1 = getMatrix(1);
+                mat2 = getMatrix(2);
+                
+                var el = document.getElementById('mat-ops');
+                switch(el.selectedIndex) 
+                {
+                    case 0:
+                        mat3 = mat1.add(mat2);
+                        break;
+                        
+                    case 1:
+                        mat3 = mat1.sub(mat2);
+                        break;
+                        
+                    case 2:
+                        mat3 = mat1.mulMatrix(mat2);
+                        break;
+                        
+                    case 3:
+                        var v1 = getCalcVector();
+                        mat3 = mat1.mulVector(v1);
+                        break;
+                        
+                    case 4:
+                        mat3 = mat1.mulFloat(2);
+                        break;
+                        
+                    case 5:
+                        mat3 = mat1.transpose();
+                }
+                
+                // setMatrixTo(mat3, 3);
+                document.getElementById('result').innerHTML = mat3.toString();
+            }
+        </script>
+    </head>
+    <body>
+        <div>Matrix 1:</div>
+        <!-- Matrix 1 -->
+        <div id="mat1">
+            <div>
+                <input type="text" id="m100" value="0" />
+                <input type="text" id="m101" value="0" />
+                <input type="text" id="m102" value="0" />
+                <input type="text" id="m103" value="0" />
+            </div>
+            
+            <div>
+                <input type="text" id="m110" value="0" />
+                <input type="text" id="m111" value="0" />
+                <input type="text" id="m112" value="0" />
+                <input type="text" id="m113" value="0" />
+            </div>
+            
+            <div>
+                <input type="text" id="m120" value="0" />
+                <input type="text" id="m121" value="0" />
+                <input type="text" id="m122" value="0" />
+                <input type="text" id="m123" value="0" />
+            </div>
+            
+            <div>
+                <input type="text" id="m130" value="0" />
+                <input type="text" id="m131" value="0" />
+                <input type="text" id="m132" value="0" />
+                <input type="text" id="m133" value="0" />
+            </div>
+        </div>
+        
+        <br />
+        <div>Matrix 2:</div>
+        <!-- Matrix 2 -->
+        <div id="mat2">
+            <div>
+                <input type="text" id="m200" value="0" />
+                <input type="text" id="m201" value="0" />
+                <input type="text" id="m202" value="0" />
+                <input type="text" id="m203" value="0" />
+            </div>
+            
+            <div>
+                <input type="text" id="m210" value="0" />
+                <input type="text" id="m211" value="0" />
+                <input type="text" id="m212" value="0" />
+                <input type="text" id="m213" value="0" />
+            </div>
+            
+            <div>
+                <input type="text" id="m220" value="0" />
+                <input type="text" id="m221" value="0" />
+                <input type="text" id="m222" value="0" />
+                <input type="text" id="m223" value="0" />
+            </div>
+            
+            <div>
+                <input type="text" id="m230" value="0" />
+                <input type="text" id="m231" value="0" />
+                <input type="text" id="m232" value="0" />
+                <input type="text" id="m233" value="0" />
+            </div>
+        </div>
+        
+        <br />
+        <div>
+            Vec4(
+            <input type="text" id="v1" value="1" />, 
+            <input type="text" id="v2" value="1" />, 
+            <input type="text" id="v3" value="1" />, 
+            <input type="text" id="v4" value="1" />)
+        </div>
+        
+        <br />
+        <div>
+            <select id="mat-ops">
+                <option selected>add</option>
+                <option>sub</option>
+                <option>mul-matrix</option>
+                <option>mul-vector</option>
+                <option>mul-float (*2)</option>
+                <option>transpose</option>
+            </select>
+            <button onclick="btn_click();">Do it!</button>
+        </div>
+        
+        <br />
+        <div>Result:</div>
+        <div>
+            <pre id="result"></pre>
+        </div>
+        <!-- div id="rs">
+            <div>
+                <input type="text" id="m300" value="0" />
+                <input type="text" id="m301" value="0" />
+                <input type="text" id="m302" value="0" />
+                <input type="text" id="m303" value="0" />
+            </div>
+            
+            <div>
+                <input type="text" id="m310" value="0" />
+                <input type="text" id="m311" value="0" />
+                <input type="text" id="m312" value="0" />
+                <input type="text" id="m313" value="0" />
+            </div>
+            
+            <div>
+                <input type="text" id="m320" value="0" />
+                <input type="text" id="m321" value="0" />
+                <input type="text" id="m322" value="0" />
+                <input type="text" id="m323" value="0" />
+            </div>
+            
+            <div>
+                <input type="text" id="m330" value="0" />
+                <input type="text" id="m331" value="0" />
+                <input type="text" id="m332" value="0" />
+                <input type="text" id="m333" value="0" />
+            </div>
+        </div>
+        
+        <br />
+        <div>
+            Vec4(
+            <input type="text" id="r1" value="1" />, 
+            <input type="text" id="r2" value="1" />, 
+            <input type="text" id="r3" value="1" />, 
+            <input type="text" id="r4" value="1" />)
+        </div -->
+    </body>
+</html>

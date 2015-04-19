@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Test vector</title>
+        <script type="text/javascript" src="vec4.js"></script>
+        
+        <script type="text/javascript">
+            function getVec1() {
+                var v11 = parseInt(document.getElementById('v11').value);
+                var v12 = parseInt(document.getElementById('v12').value);
+                var v13 = parseInt(document.getElementById('v13').value);
+                var v14 = parseInt(document.getElementById('v14').value);
+                
+                var vec1 = new Vec4(v11, v12, v13, v14);
+                return vec1;
+            }
+            
+            function getVec2() {
+                var v11 = parseInt(document.getElementById('v21').value);
+                var v12 = parseInt(document.getElementById('v22').value);
+                var v13 = parseInt(document.getElementById('v23').value);
+                var v14 = parseInt(document.getElementById('v24').value);
+                
+                var vec1 = new Vec4(v11, v12, v13, v14);
+                return vec1;
+            }
+            
+            function setResult(str) {
+                var el = document.getElementById('result');
+                el.innerHTML = str;
+            }
+            
+            function btn_click() {
+                var v1 = getVec1();
+                var v2 = getVec2();
+                
+                var sl = document.getElementById('v-ops')
+                switch(sl.selectedIndex) 
+                {
+                    case 0:
+                        var rs = v1.add(v2);
+                        break;
+                        
+                    case 1:
+                        rs = v1.sub(v2);
+                        break;
+                        
+                    case 2:
+                        rs = v1.mul(2);
+                        break;
+                        
+                    case 3:
+                        rs = v1.length();
+                        break;
+                        
+                    case 4:
+                        rs = v1.normalize();
+                        break;
+                }
+                
+                setResult(rs.toString());
+            }
+        </script>
+    </head>
+    <body>
+        <div id="vec1-input">
+            Vec1(<input type="text" id="v11" value="1" />, 
+            <input type="text" id="v12" value="2" />, 
+            <input type="text" id="v13" value="3" />, 
+            <input type="text" id="v14" value="4" />)
+        </div>
+        
+        <div id="vec-operations">
+            <select id="v-ops">
+                <option selected>add</option>
+                <option>sub</option>
+                <option>mul</option>
+                <option>length</option>
+                <option>normalize</option>
+            </select>
+        </div>
+        
+        <div id="vec2-input">
+            Vec2(<input type="text" id="v21" value="5" />, 
+            <input type="text" id="v22" value="6" />, 
+            <input type="text" id="v23" value="7" />, 
+            <input type="text" id="v24" value="8" />)
+        </div>
+        
+        <div>
+            <button onclick="btn_click();">Do it!</button>
+        </div>
+        
+        <div id="vec-result">
+            <pre id="result">
+            </pre>
+        </div>
+    </body>
+</html>
